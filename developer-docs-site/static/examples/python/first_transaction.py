@@ -45,6 +45,7 @@ class RestClient:
     """A wrapper around the Aptos-core Rest API"""
 
     def __init__(self, url: str) -> None:
+        self.seq_no = 0
         self.url = url
     #<:!:section_2
     #:!:>section_3
@@ -70,7 +71,8 @@ class RestClient:
         can be signed, which upon being signed can be submitted to the blockchain. """
 
         account_res = self.account(sender)
-        seq_num = int(account_res["sequence_number"])
+        seq_num = self.seq_no
+        self.seq_no += 1
         txn_request = {
             "sender": f"0x{sender}",
             "sequence_number": str(seq_num),
@@ -183,6 +185,11 @@ if __name__ == "__main__":
     print(f"Bob: {bob.address()}")
 
     faucet_client.fund_account(alice.pub_key(), 1_000_000)
+    faucet_client.fund_account(alice.pub_key(), 1_000_000)
+    faucet_client.fund_account(alice.pub_key(), 1_000_000)
+    faucet_client.fund_account(alice.pub_key(), 1_000_000)
+    faucet_client.fund_account(alice.pub_key(), 1_000_000)
+    faucet_client.fund_account(alice.pub_key(), 1_000_000)
     faucet_client.fund_account(bob.pub_key(), 0)
 
     print("\n=== Initial Balances ===")
@@ -190,8 +197,14 @@ if __name__ == "__main__":
     print(f"Bob: {rest_client.account_balance(bob.address())}")
 
     # Have Alice give Bob 10 coins
-    tx_hash = rest_client.transfer(alice, bob.address(), 1_000)
-    rest_client.wait_for_transaction(tx_hash)
+    import time
+    start = time.time()
+    tx_hashes = []
+    for _ in range(100):
+        tx_hashes.append(rest_client.transfer(alice, bob.address(), 1))
+    for tx_hash in tx_hashes:
+        rest_client.wait_for_transaction(tx_hash)
+    print(time.time() - start)
 
     print("\n=== Final Balances ===")
     print(f"Alice: {rest_client.account_balance(alice.address())}")
