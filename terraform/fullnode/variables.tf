@@ -91,7 +91,7 @@ variable "workspace_dns" {
 }
 
 variable "dns_prefix_name" {
-  description = "DNS prefix for fullnode url"
+  description = "DNS prefix for fullnode url "
   default     = "fullnode"
 }
 
