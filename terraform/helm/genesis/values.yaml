@@ -23,6 +23,8 @@ genesis:
     pullPolicy: IfNotPresent
   # Number of validators to include in genesis
   numValidators: 1
+  # Stake amount assigned to initial nodes in genesis
+  stakeAmount: 1
   # Controls whether to use public DNS as created by aptos-node helm chart
   # If not using public DNS, assumes the validators and fullnodes are using the service names
   # from aptos-node helm chart

@@ -118,6 +118,8 @@ spec:
           value: {{ .Values.genesis.validator.internal_host_suffix | quote }}
         - name: FULLNODE_INTERNAL_HOST_SUFFIX
           value: {{ .Values.genesis.fullnode.internal_host_suffix | quote }}
+        - name: STAKE_AMOUNT
+          value: {{ .Values.genesis.stakeAmount }}
         volumeMounts:
         - name: layout
           mountPath: /tmp/layout.yaml

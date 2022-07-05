@@ -16,6 +16,7 @@ WORKSPACE=${WORKSPACE:-/tmp}
 USERNAME_PREFIX=${USERNAME_PREFIX:-aptos-node}
 VALIDATOR_HOST_SUFFIX=${VALIDATOR_HOST_SUFFIX:-validator-lb}
 FULLNODE_HOST_SUFFIX=${FULLNODE_HOST_SUFFIX:-fullnode-lb}
+STAKE_AMOUNT=${STAKE_AMOUNT:-1}
 MOVE_MODULES_DIR=${MOVE_MODULES_DIR:-"/aptos-framework/move/modules"}
 
 if [ -z ${ERA} ] || [ -z ${NUM_VALIDATORS} ]; then
@@ -59,7 +60,8 @@ aptos genesis generate-keys --output-dir $user_dir
 aptos genesis set-validator-configuration --keys-dir $user_dir --local-repository-dir $WORKSPACE \
     --username $username \
     --validator-host $validator_host \
-    --full-node-host $fullnode_host
+    --full-node-host $fullnode_host  \
+    --stake-amount $STAKE_AMOUNT
 done
 
 # get the framework
